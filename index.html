@@ -18,7 +18,23 @@
         <ul id="game-list">
             <!-- Game items will be inserted here by game.js -->
         </ul>
+        <div id="gameContainer" class="game-container">
+            <button class="fullscreen-button" onclick="toggleFullScreen()">Full Screen</button>
+            <iframe id="gameFrame" width="100%" height="600px" frameborder="0"></iframe>
+        </div>
     </main>
     <script src="game.js"></script>
+    <script>
+        function toggleFullScreen() {
+            const gameFrame = document.getElementById('gameFrame');
+            if (!document.fullscreenElement) {
+                gameFrame.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
 </body>
 </html>
