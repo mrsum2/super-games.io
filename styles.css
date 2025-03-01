@@ -1,175 +1,109 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Advanced</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <h1>Minecraft Advanced</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+        </nav>
+    </header>
+    <main>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <button id="playButton">Play</button>
+            </div>
+        </div>
+        <div id="ad1" class="ad-container">
+            <h2>Please wait 5 seconds for this ad</h2>
+            <div class="ad-video">
+                Ad Video
+                <div class="progress-bar" id="progressBar1"></div>
+            </div>
+            <button id="skipAd1" class="ad-skip-button">Skip Ad</button>
+        </div>
+        <div id="ad2" class="ad-container">
+            <h2>Please wait 5 seconds for this ad</h2>
+            <div class="ad-video">
+                Ad Video
+                <div class="progress-bar" id="progressBar2"></div>
+            </div>
+            <button id="skipAd2" class="ad-skip-button">Skip Ad</button>
+        </div>
+        <div id="gameContainer" class="game-container">
+            <button class="fullscreen-button" onclick="toggleFullScreen()">Full Screen</button>
+            <iframe id="gameFrame" src="https://mcraft.fun/" width="100%" height="600px" frameborder="0"></iframe>
+        </div>
+    </main>
+    <script>
+        const popup = document.getElementById('popup');
+        const playButton = document.getElementById('playButton');
+        const ad1 = document.getElementById('ad1');
+        const ad2 = document.getElementById('ad2');
+        const gameContainer = document.getElementById('gameContainer');
+        const skipAd1 = document.getElementById('skipAd1');
+        const skipAd2 = document.getElementById('skipAd2');
+        const progressBar1 = document.getElementById('progressBar1');
+        const progressBar2 = document.getElementById('progressBar2');
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
+        let currentAd = 1;
 
-header nav a {
-    color: white;
-    margin: 0 1rem;
-    text-decoration: none;
-}
+        playButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+            ad1.style.display = 'flex';
+            startAdProgress(progressBar1);
+            setTimeout(() => showSkipButton(skipAd1), 5000); // Show skip button after 5 seconds
+            setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
+        });
 
-main {
-    padding: 2rem;
-    text-align: center;
-}
+        function showSkipButton(skipButton) {
+            skipButton.style.display = 'block';
+        }
 
-#game-list {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+        function startAdProgress(progressBar) {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 150);
+        }
 
-#game-list li {
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        function showNextAdOrGame() {
+            if (currentAd === 1) {
+                ad1.style.display = 'none';
+                ad2.style.display = 'flex';
+                startAdProgress(progressBar2);
+                currentAd++;
+                setTimeout(() => showSkipButton(skipAd2), 5000); // Show skip button after 5 seconds
+                setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
+            } else {
+                ad2.style.display = 'none';
+                gameContainer.style.display = 'block';
+            }
+        }
 
-#game-list a {
-    text-decoration: none;
-    color: #007BFF;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        skipAd1.addEventListener('click', showNextAdOrGame);
+        skipAd2.addEventListener('click', showNextAdOrGame);
 
-#game-list img {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    margin-bottom: 0.5rem;
-}
-
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.popup-content {
-    background-color: white;
-    padding: 2rem;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.popup-content button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border: none;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.popup-content button:hover {
-    background-color: #0056b3;
-}
-
-.ad-container {
-    position: relative;
-    width: 100%;
-    height: 600px;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.ad-container h2 {
-    color: white;
-    margin-bottom: 1rem;
-}
-
-.ad-video {
-    width: 80%;
-    height: 300px;
-    background: #222;
-    border-radius: 10px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.ad-video .progress-bar {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    width: 0;
-    height: 10px;
-    background: #007BFF;
-    border-radius: 5px;
-}
-
-.ad-skip-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    border: none;
-    cursor: pointer;
-    display: none;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.ad-skip-button:hover {
-    background-color: #0056b3;
-}
-
-.game-container {
-    display: none;
-}
-
-.fullscreen-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    border: none;
-    cursor: pointer;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.fullscreen-button:hover {
-    background-color: #0056b3;
-}
-
-.proxy-container {
-    position: relative;
-    width: 100%;
-    height: 600px;
-    margin-top: 2rem;
-}
+        function toggleFullScreen() {
+            const gameFrame = document.getElementById('gameFrame');
+            if (!document.fullscreenElement) {
+                gameFrame.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
