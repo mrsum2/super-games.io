@@ -42,42 +42,29 @@ main {
     text-align: center;
 }
 
-.ad-container {
+.loading-bar-container {
     display: none;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-.ad-video {
-    background: #ccc;
-    width: 100%;
+.loading-bar {
+    width: 80%;
     max-width: 600px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
 }
 
 .progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 5px;
-    background-color: green;
+    height: 100%;
+    background: green;
     width: 0;
-}
-
-.ad-skip-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background: #333;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: none;
+    transition: width 0.3s ease;
 }
 
 .game-container {
