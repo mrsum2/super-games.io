@@ -4,6 +4,7 @@ const games = [
     { name: "Tetris", url: "games/tetris.html", img: "https://tse2.mm.bing.net/th?id=OIP.IcbjB5cgZPvgtbISS3rS6wHaEK&pid=Api&P=0&h=180" },
     { name: "BasketBros", url: "games/basketbros.html", img: "https://tse3.mm.bing.net/th?id=OIP.I89LzqnaUvVeUTxbdlGZ-QAAAA&pid=Api&P=0&h=180" },
     { name: "Minecraft Advanced", url: "games/minecraft_advanced.html", img: "https://tse4.mm.bing.net/th?id=OIP.l6MZZynh7ZPVmvvTNNvAFAHaEK&pid=Api&P=0&h=180" },
+    { name: "Subway Surfers", url: "games/subwaysurfers.html", img: "https://wallpapercave.com/wp/wp2315432.jpg" }
 ];
 
 const gameList = document.getElementById("game-list");
