@@ -11,16 +11,103 @@
         <h1>Game Hub</h1>
         <nav>
             <a href="index.html">Home</a>
-            <a href="about.html">About</a>
         </nav>
     </header>
     <main>
-        <h2>Welcome to Game Hub</h2>
-        <p>Select a game to play:</p>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <button id="playButton">Play</button>
+            </div>
+        </div>
+        <div id="ad1" class="ad-container">
+            <h2>Please wait 5 seconds for this ad</h2>
+            <div class="ad-video">
+                Ad Video
+                <div class="progress-bar" id="progressBar1"></div>
+            </div>
+            <button id="skipAd1" class="ad-skip-button">Skip Ad</button>
+        </div>
+        <div id="ad2" class="ad-container">
+            <h2>Please wait 5 seconds for this ad</h2>
+            <div class="ad-video">
+                Ad Video
+                <div class="progress-bar" id="progressBar2"></div>
+            </div>
+            <button id="skipAd2" class="ad-skip-button">Skip Ad</button>
+        </div>
+        <div id="gameContainer" class="game-container">
+            <button class="fullscreen-button" onclick="toggleFullScreen()">Full Screen</button>
+            <iframe id="gameFrame" src="https://szhong.4399.com/4399swf/upload_swf/ftp35/liuxinyu/20210324/jj01/index.html" width="100%" height="600px" frameborder="0"></iframe>
+        </div>
         <ul id="game-list">
-            <!-- Game links will be populated here by JavaScript -->
+            <!-- Game items will be inserted here by game.js -->
         </ul>
     </main>
-    <script src="games.js"></script>
+    <script src="game.js"></script>
+    <script>
+        const popup = document.getElementById('popup');
+        const playButton = document.getElementById('playButton');
+        const ad1 = document.getElementById('ad1');
+        const ad2 = document.getElementById('ad2');
+        const gameContainer = document.getElementById('gameContainer');
+        const skipAd1 = document.getElementById('skipAd1');
+        const skipAd2 = document.getElementById('skipAd2');
+        const progressBar1 = document.getElementById('progressBar1');
+        const progressBar2 = document.getElementById('progressBar2');
+
+        let currentAd = 1;
+
+        playButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+            ad1.style.display = 'flex';
+            startAdProgress(progressBar1);
+            setTimeout(() => showSkipButton(skipAd1), 5000); // Show skip button after 5 seconds
+            setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
+        });
+
+        function showSkipButton(skipButton) {
+            skipButton.style.display = 'block';
+        }
+
+        function startAdProgress(progressBar) {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 150);
+        }
+
+        function showNextAdOrGame() {
+            if (currentAd === 1) {
+                ad1.style.display = 'none';
+                ad2.style.display = 'flex';
+                startAdProgress(progressBar2);
+                currentAd++;
+                setTimeout(() => showSkipButton(skipAd2), 5000); // Show skip button after 5 seconds
+                setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
+            } else {
+                ad2.style.display = 'none';
+                gameContainer.style.display = 'block';
+            }
+        }
+
+        skipAd1.addEventListener('click', showNextAdOrGame);
+        skipAd2.addEventListener('click', showNextAdOrGame);
+
+        function toggleFullScreen() {
+            const gameFrame = document.getElementById('gameFrame');
+            if (!document.fullscreenElement) {
+                gameFrame.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
 </body>
 </html>
