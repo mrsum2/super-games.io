@@ -12,7 +12,7 @@ games.forEach(game => {
     const listItem = document.createElement("li");
     const link = document.createElement("a");
     link.href = game.url;
-    
+
     const image = document.createElement("img");
     image.src = game.img;
     image.alt = game.name;
