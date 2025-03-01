@@ -93,3 +93,27 @@ main {
     cursor: pointer;
 }
 
+#game-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#game-list li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#game-list img {
+    margin-right: 10px;
+}
+
+#game-list span {
+    font-size: 24px;
+    background: black;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
