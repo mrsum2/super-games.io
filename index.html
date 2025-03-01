@@ -19,21 +19,17 @@
                 <button id="playButton">Start</button>
             </div>
         </div>
-        <div id="ad1" class="ad-container">
-            <h2>Please wait 5 seconds for loading assets</h2>
-            <div class="ad-video">
-                Loading Assets
-                <div class="progress-bar" id="progressBar1"></div>
+        <div id="loadingResources" class="loading-bar-container">
+            <h2>Loading resources...</h2>
+            <div class="loading-bar">
+                <div class="progress-bar" id="progressBarResources"></div>
             </div>
-            <button id="skipAd1" class="ad-skip-button">Skip</button>
         </div>
-        <div id="ad2" class="ad-container">
-            <h2>Please wait 5 seconds for loading assets</h2>
-            <div class="ad-video">
-                Loading Assets
-                <div class="progress-bar" id="progressBar2"></div>
+        <div id="loadingConfigs" class="loading-bar-container">
+            <h2>Loading configs...</h2>
+            <div class="loading-bar">
+                <div class="progress-bar" id="progressBarConfigs"></div>
             </div>
-            <button id="skipAd2" class="ad-skip-button">Skip</button>
         </div>
         <div id="gameContainer" class="game-container">
             <button class="fullscreen-button" onclick="toggleFullScreen()">Full Screen</button>
@@ -47,56 +43,48 @@
     <script>
         const popup = document.getElementById('popup');
         const playButton = document.getElementById('playButton');
-        const ad1 = document.getElementById('ad1');
-        const ad2 = document.getElementById('ad2');
+        const loadingResources = document.getElementById('loadingResources');
+        const loadingConfigs = document.getElementById('loadingConfigs');
+        const progressBarResources = document.getElementById('progressBarResources');
+        const progressBarConfigs = document.getElementById('progressBarConfigs');
         const gameContainer = document.getElementById('gameContainer');
-        const skipAd1 = document.getElementById('skipAd1');
-        const skipAd2 = document.getElementById('skipAd2');
-        const progressBar1 = document.getElementById('progressBar1');
-        const progressBar2 = document.getElementById('progressBar2');
-
-        let currentAd = 1;
 
         playButton.addEventListener('click', () => {
             popup.style.display = 'none';
-            ad1.style.display = 'flex';
-            startAdProgress(progressBar1);
-            setTimeout(() => showSkipButton(skipAd1), 5000); // Show skip button after 5 seconds
-            setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
+            loadingResources.style.display = 'flex';
+            startResourceLoading();
         });
 
-        function showSkipButton(skipButton) {
-            skipButton.style.display = 'block';
-        }
-
-        function startAdProgress(progressBar) {
+        function startResourceLoading() {
             let width = 0;
             const interval = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(interval);
+                    loadingResources.style.display = 'none';
+                    loadingConfigs.style.display = 'flex';
+                    startConfigLoading();
                 } else {
-                    width++;
-                    progressBar.style.width = width + '%';
+                    width += Math.random() * 10; // Simulate fast progress
+                    width = Math.min(width, 100); // Ensure it doesn't go over 100%
+                    progressBarResources.style.width = width + '%';
                 }
-            }, 150);
+            }, 200);
         }
 
-        function showNextAdOrGame() {
-            if (currentAd === 1) {
-                ad1.style.display = 'none';
-                ad2.style.display = 'flex';
-                startAdProgress(progressBar2);
-                currentAd++;
-                setTimeout(() => showSkipButton(skipAd2), 5000); // Show skip button after 5 seconds
-                setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
-            } else {
-                ad2.style.display = 'none';
-                gameContainer.style.display = 'block';
-            }
+        function startConfigLoading() {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    loadingConfigs.style.display = 'none';
+                    gameContainer.style.display = 'block';
+                } else {
+                    width += Math.random() * 5; // Simulate slow progress
+                    width = Math.min(width, 100); // Ensure it doesn't go over 100%
+                    progressBarConfigs.style.width = width + '%';
+                }
+            }, 500);
         }
-
-        skipAd1.addEventListener('click', showNextAdOrGame);
-        skipAd2.addEventListener('click', showNextAdOrGame);
 
         function toggleFullScreen() {
             const gameFrame = document.getElementById('gameFrame');
