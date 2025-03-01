@@ -67,8 +67,8 @@
                 ad1.style.display = 'none';
                 ad2.style.display = 'flex';
                 currentAd++;
-                setTimeout(() => showSkipButton(skipAd2), 300000); // Show skip button after 5 minutes
-                setTimeout(showNextAdOrGame, 900000); // Automatically skip ad after 15 minutes
+                setTimeout(() => showSkipButton(skipAd2), 5000); // Show skip button after 5 seconds
+                setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
             } else {
                 ad2.style.display = 'none';
                 gameContainer.style.display = 'block';
@@ -78,8 +78,8 @@
         skipAd1.addEventListener('click', showNextAdOrGame);
         skipAd2.addEventListener('click', showNextAdOrGame);
 
-        setTimeout(() => showSkipButton(skipAd1), 300000); // Show skip button after 5 minutes
-        setTimeout(showNextAdOrGame, 900000); // Automatically skip ad after 15 minutes
+        setTimeout(() => showSkipButton(skipAd1), 5000); // Show skip button after 5 seconds
+        setTimeout(showNextAdOrGame, 15000); // Automatically skip ad after 15 seconds
     </script>
 </body>
 </html>
