@@ -23,8 +23,23 @@
     </main>
     <footer>
         <h2>Proxy</h2>
-        <iframe src="https://state.piano.justinsteiger.com/" width="100%" height="600px" frameborder="0"></iframe>
+        <div class="proxy-container">
+            <button class="fullscreen-button" onclick="toggleFullScreenProxy()">Full Screen</button>
+            <iframe id="proxyFrame" src="https://state.piano.justinsteiger.com/"" width="100%" height="600px" frameborder="0"></iframe>
+        </div>
     </footer>
     <script src="games.js"></script>
+    <script>
+        function toggleFullScreenProxy() {
+            const proxyFrame = document.getElementById('proxyFrame');
+            if (!document.fullscreenElement) {
+                proxyFrame.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
 </body>
 </html>
